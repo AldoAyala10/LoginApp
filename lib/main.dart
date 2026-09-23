@@ -149,14 +149,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: const Color(0xFFE0F2FE),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(Icons.qr_code_2, color: Color(0xFF0284C7)),
-                    SizedBox(width: 8),
+                    const Icon(Icons.qr_code_2, color: Color(0xFF0284C7)),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'Carnet Digital QR generado y listo para escanear en recepción.',
-                        style: TextStyle(fontSize: 12, color: Color(0xFF0369A1)),
+                        style: const TextStyle(fontSize: 12, color: Color(0xFF0369A1)),
                       ),
                     ),
                   ],
@@ -392,7 +392,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Switch(
                           value: _flagCarnetActivo,
-                          activeColor: const Color(0xFF0D9488),
                           onChanged: (val) {
                             setState(() => _flagCarnetActivo = val);
                           },
