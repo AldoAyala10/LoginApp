@@ -50,5 +50,9 @@ void main() {
     test('Rechaza correos sin nombre de usuario antes del arroba', () {
       expect(validarCorreo('@gmail.com'), isFalse);
     });
+
+    test('Acepta correos con letras mayúsculas normalizadas', () {
+      expect(validarCorreo('PACIENTE.DENTAL@GMAIL.COM'), isTrue);
+    });
   });
 }

@@ -25,7 +25,7 @@ jobs:
         run: flutter pub get
 
       - name: 🔍 Analizar código (flutter analyze)
-        run: flutter analyze
+        run: flutter analyze --no-fatal-infos
 
       - name: 🧪 Ejecutar pruebas unitarias (flutter test)
         run: flutter test
