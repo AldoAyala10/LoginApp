@@ -1,106 +1,60 @@
-# 🦷 LoginApp - Clínica Dental Sonrisas
+# LoginApp - Clínica Dental Sonrisas
 
-Aplicación móvil desarrollada en **Flutter** para el inicio de sesión de pacientes en una clínica dental, equipada con validación de correos electrónicos mediante funciones puras, pruebas unitarias automatizadas y un pipeline de Integración Continua (CI) en GitHub Actions.
+Aplicación móvil en Flutter para simular el acceso de pacientes y administradores de una clínica dental. El Sprint 2 agrega autenticación local por rol, navegación a dashboards y citas de prueba para el paciente.
 
----
+## Funcionalidades
 
-## 📁 Estructura del Proyecto
+- Inicio de sesión local con cuentas de demostración.
+- Enrutamiento a un panel distinto según el rol del usuario.
+- Panel del paciente con próximas citas cargadas desde datos mock.
+- Panel inicial de administración. El listado de pacientes se conectará al backend en el Sprint 3.
+- Cierre de sesión que limpia la navegación anterior.
+- Tarjeta demostrativa de carnet digital controlada por `kHabilitarCarnetQR`.
+- Pruebas unitarias del inicio de sesión y pruebas de widgets para los flujos de la interfaz.
 
-```plaintext
-LoginApp/
-│
-├── lib/
-│   ├── main.dart                 # Pantalla de Login e interfaz de usuario en Flutter
-│   └── validar_correo.dart       # Función de lógica pura para validar correos
-│
-├── test/
-│   └── validar_correo_test.dart  # Pruebas unitarias de la función validarCorreo
-│
-├── .github/
-│   ├── pull_request_template.md  # Plantilla oficial para solicitar cambios (PR)
-│   └── workflows/
-│       └── ci.yml                # Flujo de GitHub Actions (flutter analyze y test)
-│
-├── CONTRIBUTING.md               # Reglas de colaboración, ramas y commits
-├── pubspec.yaml                  # Configuración del proyecto Flutter y dependencias
-└── README.md                     # Documentación general
+## Cuentas de demostración
+
+| Rol | Correo | Contraseña |
+| --- | --- | --- |
+| Paciente | `paciente@test.com` | `Paciente123` |
+| Administrador | `admin@test.com` | `Admin123` |
+
+La autenticación y las citas son simuladas en memoria. No existe conexión a una base de datos ni persistencia de sesión; el backend se integra en un sprint posterior.
+
+## Estructura
+
+```text
+lib/
+├── config/app_config.dart
+├── data/
+│   ├── mock_appointments.dart
+│   └── mock_auth_repository.dart
+├── models/app_user.dart
+├── screens/
+│   ├── admin_dashboard.dart
+│   ├── login_screen.dart
+│   └── patient_dashboard.dart
+├── main.dart
+└── validar_correo.dart
+test/
+├── mock_auth_repository_test.dart
+├── validar_correo_test.dart
+└── widget_test.dart
 ```
 
----
+## Ejecución local
 
-## 🚀 Requisitos y Ejecución Local
+Con Flutter instalado, ejecuta:
 
-### Prerrequisitos
-- Tener instalado [Flutter SDK](https://docs.flutter.dev/get-started/install) (versión 3.0 o superior).
-
-### 1. Descargar dependencias
 ```bash
 flutter pub get
-```
-
-### 2. Ejecutar la Aplicación
-```bash
 flutter run
-```
-
-### 3. Ejecutar las Pruebas Unitarias 🧪
-```bash
+flutter analyze
 flutter test
 ```
 
-### 4. Análisis Estático de Código
-```bash
-flutter analyze
-```
+## Integración continua
 
----
+El flujo `.github/workflows/ci.yml` se ejecuta en los Pull Requests hacia `main` y en los cambios a `main`. Descarga dependencias, analiza el proyecto y ejecuta las pruebas unitarias y de widgets.
 
-## 🧩 Función de Lógica Pura (`lib/validar_correo.dart`)
-
-Implementa la función requerida `validarCorreo(String? correo)` que comprueba el formato de correo electrónico:
-
-| Correo | Resultado Esperado | Justificación |
-| :--- | :---: | :--- |
-| `usuario@gmail.com` | **Válido (`true`)** | Contiene usuario, arroba `@` y dominio con TLD `.com`. |
-| `usuario@gmail` | **Inválido (`false`)** | Le falta la extensión o dominio de nivel superior (.com, .mx). |
-| `usuariogmail.com` | **Inválido (`false`)** | Carece del símbolo `@`. |
-
----
-
-## 🧪 Pruebas Unitarias (`test/validar_correo_test.dart`)
-
-El archivo de pruebas verifica rigurosamente los casos exigidos en la rúbrica y casos adicionales:
-- Verificación del caso válido `usuario@gmail.com`.
-- Verificación del caso sin dominio `usuario@gmail`.
-- Verificación del caso sin arroba `usuariogmail.com`.
-- Manejo seguro de nulos, cadenas vacías y espacios accidentales.
-
----
-
-## 🤖 Integración Continua (GitHub Actions: `.github/workflows/ci.yml`)
-
-Cada vez que un colaborador abre un Pull Request hacia la rama `main`, GitHub Actions ejecuta de manera automática:
-1. `flutter pub get`: Descarga de dependencias.
-2. `flutter analyze`: Inspección de sintaxis y buenas prácticas.
-3. `flutter test`: Ejecución de todas las pruebas unitarias.
-
-> Si todas las pruebas pasan, GitHub muestra el indicador verde (**Checks passed**). Si alguna prueba falla, el PR se bloquea evitando que código defectuoso llegue a `main`.
-
----
-
-## 📱 Entregable 3 (Opcional): Demostración de Despliegue con Feature Flags
-
-En `lib/main.dart` se implementó el mecanismo de **Feature Flag**:
-```dart
-const bool kHabilitarCarnetQR = true;
-```
-- **Activada (`true`)**: Muestra a los pacientes el acceso mediante su Carnet Digital QR de la clínica dental.
-- **Desactivada (`false`)**: Oculta la función manteniendo la versión estable clásica.
-
-Permite activar o apagar funcionalidades en producción de manera inmediata sin necesidad de redelegar una versión binaria o realizar un rollback destructivo.
-
----
-
-## 👥 Colaboración y Ramas
-
-Para conocer las reglas de ramas (`feature/login`), convención de commits y el proceso de aprobación de Pull Requests, consulta [CONTRIBUTING.md](CONTRIBUTING.md).
+El repositorio sigue GitHub Flow: los cambios se trabajan en una rama `feature/*` y se envían a `main` mediante Pull Request y revisión por pares.

@@ -12,24 +12,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Clonar repositorio
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
-      - name: ⚙️ Configurar Flutter SDK
+      - name: Configurar Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
           cache: true
 
-      - name: 📦 Descargar dependencias
+      - name: Descargar dependencias
         run: flutter pub get
 
-      - name: 🔍 Analizar código (flutter analyze)
+      - name: Analizar código Flutter
         run: flutter analyze --no-fatal-infos
 
-      - name: 🧪 Ejecutar pruebas unitarias (flutter test)
-        run: flutter test
+      - name: Ejecutar pruebas unitarias y de widgets
+        run: flutter test --reporter expanded
 
-      - name: 📋 Confirmar estado exitoso
+      - name: Confirmar estado exitoso
         if: success()
-        run: echo "✅ Todas las pruebas de Flutter y el análisis estático pasaron exitosamente."
+        run: echo "Todas las pruebas de Flutter y el análisis estático pasaron exitosamente."
